@@ -1,0 +1,46 @@
+version: '3.2'
+
+volumes:
+    redis_data: {}
+
+services:
+  redis:
+    image: redis
+    volumes:
+    - 'redis_data:/data'
+
+  msa-api:
+    build: msa-api/
+    image: shelleg/msa-api:latest
+    ports:
+      - 8080:8080
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+
+  msa-pinger:
+    build: msa-pinger/
+    image: shelleg/msa-pinger:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api
+
+  msa-poller:
+    build: msa-poller/
+    image: shelleg/msa-poller:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api
+
+  # php-redis-admin:
+  #   image: erikdubbelboer/phpredisadmin
+  #   environment:
+  #     REDIS_1_HOST: redis
+  #     REDIS_1_NAME: redis-local
+  #   ports:
+  #     - 6378:80
+  #   depends_on:
+  #     - redis
