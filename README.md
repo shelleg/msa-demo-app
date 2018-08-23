@@ -2,6 +2,7 @@
 
 1. #### msa-api
 The api service which:
+  * responses to NODE_ENV environment variable with values `development` or `docker` or `kubernetes` which expects redis_url key to be present.
   * Returns the current pinger value when `/` is called
   * Increments the value of key by 1 every time `/ping` is called
   * Says "its aaallive!" when `/isAlive` is called

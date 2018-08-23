@@ -4,13 +4,11 @@ RUN mkdir -p /opt/tikal/config
 
 WORKDIR /opt/tikal/
 
-VOLUME /opt/tikal/config
-
 COPY package.json .
 RUN npm install
 
-COPY config/* config/
 COPY *.js /opt/tikal/
+COPY config/* /opt/tikal/config/
 
 EXPOSE 8080
 

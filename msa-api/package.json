@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "config": "^2.0.1",
+    "convict": "^4.3.2",
     "express": "^4.14.0",
     "redis": "^2.6.5",
     "retry": "^0.10.0"

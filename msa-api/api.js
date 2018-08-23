@@ -1,24 +1,18 @@
 let express = require('express');
 let redis = require('redis');
 let app = express();
-var config = require('config');
+var config = require('./config/config.js');
 
-// configuration related
-process.env.NODE_ENV || 'development'
-var app_listen_port = process.env.LISTEN_PORT || 8080;
-
-if (config.has('redis_url')) {
-  var cache_host = config.redis_url;
-  console.log('NODE_CONFIG_DIR: ' + config.util.getEnv('NODE_CONFIG_DIR'));
-  console.log('redis_url loaded for ' + config.util.getEnv('NODE_ENV') + ' environment');
-}
+var cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
+var redis_pass = config.get('redis_pass')
 
 if (process.env.REDIS_URL != null) {
   var cache_host = process.env.REDIS_URL;
 }
 
 app.set('redis', redis.createClient({
-  url: cache_host
+  url: cache_host,
+  password: redis_pass
 }));
 
 // routes
@@ -79,7 +73,7 @@ app.get('/probe/readiness', function (req, res) {
   });
 });
 
-app.listen(app_listen_port, function () {
-  console.log('running on host ' + config.util.getEnv('HOSTNAME'));
-  console.log('Server running on port ' + app_listen_port + '!');
+app.listen(config.get('listen_port'), function () {
+  console.log('Conneting to cache_host: ' + cache_host);
+  console.log('Server running on port ' + config.get('listen_port') + '!');
 });
