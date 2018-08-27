@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: msa-poller
+  name: msa-poller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: msa-poller
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: msa-poller
+    spec:
+      containers:
+      - env:
+        - name: API_URL
+          value: ${MSA_API_SERVICE_HOST}:${MSA_API_SERVICE_PORT}
+        image: shelleg/msa-poller:latest
+        name: msa-poller
+        resources: {}
+status: {}

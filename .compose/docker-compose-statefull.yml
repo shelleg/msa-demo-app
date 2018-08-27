@@ -1,0 +1,35 @@
+version: '3.2'
+
+volumes:
+    redis_data: {}
+
+services:
+  redis:
+    image: redis
+    volumes:
+    - 'redis_data:/data'
+    ports:
+      - 6379:6379
+
+  msa-api:
+    image: shelleg/msa-api:config
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+    environment:
+      NODE_ENV: docker
+
+  msa-pinger:
+    image: shelleg/msa-pinger:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api
+
+  msa-poller:
+    image: shelleg/msa-poller:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api

@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: msa-pinger
+  name: msa-pinger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: msa-pinger
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: msa-pinger
+    spec:
+      containers:
+      - env:
+        - name: API_URL
+          value: ${MSA_API_SERVICE_HOST}:${MSA_API_SERVICE_PORT}
+        - name: DEBUG
+          value: "true"
+        image: shelleg/msa-pinger:latest
+        name: msa-pinger
+        resources: {}
+status: {}

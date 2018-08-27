@@ -1,0 +1,34 @@
+version: '3.2'
+
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - '${PWD}/redis/redis.conf:/usr/local/etc/redis/redis.conf'
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+
+  msa-api:
+    image: shelleg/msa-api:config
+    ports:
+      - 8080:8080
+    environment:
+      NODE_ENV: "docker"
+
+    depends_on:
+      - redis
+
+  msa-pinger:
+    image: shelleg/msa-pinger:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api
+
+  msa-poller:
+    image: shelleg/msa-poller:latest
+    environment:
+      API_URL: http://msa-api:8080
+    depends_on:
+      - msa-api

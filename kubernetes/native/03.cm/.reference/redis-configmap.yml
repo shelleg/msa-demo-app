@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  redis.conf: |
+    loglevel debug
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: redis-configmap

@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.16.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: msa-pinger
+  name: msa-pinger
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: msa-pinger
+    spec:
+      containers:
+      - env:
+        - name: API_URL
+          value: http://msa-api:8080
+        - name: DEBUG
+          value: "true"
+        image: shelleg/msa-pinger:latest
+        name: msa-pinger
+        resources: {}
+      restartPolicy: Always
+status: {}

@@ -74,6 +74,6 @@ app.get('/probe/readiness', function (req, res) {
 });
 
 app.listen(config.get('listen_port'), function () {
-  console.log('Conneting to cache_host: ' + cache_host);
+  console.log('Connecting to cache_host: ' + cache_host);
   console.log('Server running on port ' + config.get('listen_port') + '!');
 });
