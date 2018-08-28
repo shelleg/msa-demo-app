@@ -1,0 +1,36 @@
+# ensure tiller isn't installed yet if it is will need to cleanup stuff first ...
+kubectl get deployments --all-namespaces | grep 'helm\|tiller' | awk '{print $2}'
+kubectl get svc | grep 'helm\|tiller' | awk '{print $1}'
+kubectl get serviceaccounts --all-namespaces | grep 'helm\|tiller' | awk '{print $2}'
+kubectl get clusterrolebindings.rbac.authorization.k8s.io --all-namespaces | grep 'helm\|tiller' | awk '{print $1}'
+
+# if they exists let's delete them ...
+kubectl delete deployment `kubectl get deployments --all-namespaces | grep 'helm\|tiller' | awk '{print $2}'` 2> /dev/null
+kubectl delete svc `kubectl get svc | grep 'helm\|tiller' | awk '{print $1}'` 2> /dev/null
+kubectl delete sa `kubectl get serviceaccounts --all-namespaces | grep 'helm\|tiller' | awk '{print $2}'` 2> /dev/null
+kubectl delete clusterrolebindings.rbac.authorization.k8s.io `kubectl get clusterrolebindings.rbac.authorization.k8s.io --all-namespaces | grep 'helm\|tiller' | awk '{print $1}'` 2> /dev/null
+
+# deploy tiller # save config in helm-init.yml
+helm init --service-account helm --dry-run --debug > helm-init.yml
+
+# create sufficient RBAC rules -> service account and cluster role-binding
+kubectl create -f helm-rbac-cluster-wide.yml
+
+# apply helm installation
+kubectl create -f helm-init.yml
+
+
+# lets deploy a chart ...
+helm install --name artifactory stable/artifactory
+
+# helm list - let's see what it has in store for us
+helm ls --all artifactory
+
+# let's delete the one we just deployed
+helm delete --purge artifactory
+
+# oops I installed the commercial version of Artifactory want to use OSS ...
+helm install --name artifactory --set artifactory.image.repository=docker.bintray.io/jfrog/artifactory-oss stable/artifactory
+
+# this is also a great example of how to override values in charts ... so charts can stay generic
+curl https://raw.githubusercontent.com/helm/charts/master/stable/artifactory/values.yaml | grep repository
