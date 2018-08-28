@@ -1,0 +1,67 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: msa-api
+  name: msa-api
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: msa-api
+    spec:
+      initContainers:
+      - name: vault-init
+        image: chrislevi/kube-vault-auth-init
+        imagePullPolicy: Always
+        env:
+        - name: KUBERNETES_AUTH_PATH
+          value: "kubernetes"
+        - name: VAULT_ADDR
+          value: "https://dev-vault:8200"
+        - name: VAULT_SKIP_VERIFY
+          value: "true"
+        - name: VAULT_LOGIN_ROLE
+          value: "demo-role"
+        - name: SECRET_redis_host
+          value: "secret/demo?redis_host"
+        - name: SECRET_redis_port
+          value: "secret/demo?redis_port"
+        - name: SECRET_redis_pass
+          value: "secret/demo?redis_pass"
+        volumeMounts:
+        - name: shared-data
+          mountPath: /env
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: variables
+        image: chrislevi/msa-api:config
+        imagePullPolicy: Always
+        name: msa-api
+        lifecycle:
+            postStart:
+                exec:
+                    command:
+                        - ln
+                        - -s
+                        - /opt/tikal/variables/variables.json
+                        - /opt/tikal/config/variables.json
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - name: shared-data
+          mountPath: /opt/tikal/variables
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+      restartPolicy: Always
+status: {}

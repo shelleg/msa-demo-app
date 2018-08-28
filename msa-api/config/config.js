@@ -4,7 +4,7 @@ var convict = require('convict');
 var config = convict({
   env: {
     doc: "The application environment.",
-    format: ["development", "docker", "kubernetes"],
+    format: ["development", "docker", "kubernetes", "variables"],
     default: "development",
     env: "NODE_ENV"
   },
