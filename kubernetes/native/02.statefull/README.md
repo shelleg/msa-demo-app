@@ -129,57 +129,58 @@ EOF
 
     The fill file would like the following:
     ```yaml
-  cat <<EOF > redis.yml
-  apiVersion: v1
-  kind: Service
-  metadata:
-    creationTimestamp: null
-    name: redis
-  spec:
-    ports:
-    - port: 6379
-      protocol: TCP
-      targetPort: 6379
-    selector:
-      run: redis
-  status:
-    loadBalancer: {}
-  ---
-  apiVersion: apps/v1beta1
-  kind: Deployment
-  metadata:
-    creationTimestamp: null
-    labels:
-      run: redis
-    name: redis
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
+    cat <<EOF > redis.yml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      name: redis
+    spec:
+      ports:
+      - port: 6379
+        protocol: TCP
+        targetPort: 6379
+      selector:
         run: redis
-    strategy: {}
-    template:
-      metadata:
-        creationTimestamp: null
-        labels:
+    status:
+      loadBalancer: {}
+    ---
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: redis
+      name: redis
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
           run: redis
-      spec:
-        containers:
-        - image: redis
-          name: redis
-          ports:
-          - containerPort: 6379
-          resources: {}
-          volumeMounts:
-          - mountPath: /data
-            name: redis-data
-        volumes:
-        - name: redis-data
-          persistentVolumeClaim:
-            claimName: redis-data
-  status: {}
-  EOF
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            run: redis
+        spec:
+          containers:
+          - image: redis
+            name: redis
+            ports:
+            - containerPort: 6379
+            resources: {}
+            volumeMounts:
+            - mountPath: /data
+              name: redis-data
+          volumes:
+          - name: redis-data
+            persistentVolumeClaim:
+              claimName: redis-data
+    status: {}
+    EOF
     ```
+
     Deploy redis with pvc like so:
 
     ```sh
@@ -187,6 +188,7 @@ EOF
     ```
 
     #### 2.5 Create deployment for msa-api, msa-pinger, msa-poller like so:
+
     ```sh
     kubectl create -n msa-demo -f msa-api.yml
     kubectl create -n msa-demo -f msa-pinger.yml -f msa-poller.yml
@@ -203,7 +205,7 @@ EOF
     deployment.apps/msa-poller created
     ```
 
-  #### 4. Verify our deployment
+#### 4. Verify our deployment
     ##### 4.1 validate services
     ```sh
     kubectl -n msa-demo get svc
@@ -245,7 +247,8 @@ EOF
     ```sh
     kubectl -n msa-demo exec -it `kubectl -n msa-demo get pod | grep redis | awk '{print $1}'` redis-cli GET pings
     ```
-    should yield somt number:
+
+    should yield some number:
     ```sh
     "2152"
     ```
