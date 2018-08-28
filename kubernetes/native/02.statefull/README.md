@@ -113,7 +113,80 @@ status: {}
 EOF
     ```
 
-    #### 2.4 Create deployment for msa-api, msa-pinger, msa-poller like so:
+    #### 2.4 Add pvc to redis.yml
+
+    edit the redis.yml file we used in the previous lab with the following change:
+
+    ```yaml
+    volumeMounts:
+    - mountPath: /data
+      name: redis-data
+  volumes:
+  - name: redis-data
+    persistentVolumeClaim:
+      claimName: redis-data
+    ```
+
+    The fill file would like the following:
+    ```yaml
+  cat <<EOF > redis.yml
+  apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: redis
+  spec:
+    ports:
+    - port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      run: redis
+  status:
+    loadBalancer: {}
+  ---
+  apiVersion: apps/v1beta1
+  kind: Deployment
+  metadata:
+    creationTimestamp: null
+    labels:
+      run: redis
+    name: redis
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        run: redis
+    strategy: {}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          run: redis
+      spec:
+        containers:
+        - image: redis
+          name: redis
+          ports:
+          - containerPort: 6379
+          resources: {}
+          volumeMounts:
+          - mountPath: /data
+            name: redis-data
+        volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-data
+  status: {}
+  EOF
+    ```
+    Deploy redis with pvc like so:
+
+    ```sh
+    kubectl create -f redis.yml
+    ```
+
+    #### 2.5 Create deployment for msa-api, msa-pinger, msa-poller like so:
     ```sh
     kubectl create -n msa-demo -f msa-api.yml
     kubectl create -n msa-demo -f msa-pinger.yml -f msa-poller.yml
