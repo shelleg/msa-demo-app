@@ -6,7 +6,7 @@
 3. Deploy to kubernetes
 4. Test deployment
 
-  ### 1. perquisites
+#### 1. perquisites
 
   - You understand what a kubernetes `deployment` is [link](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
   - You understand what `services` are and the different `service` types [link](https://kubernetes.io/docs/concepts/services-networking/service/)
@@ -19,7 +19,7 @@
     - create msa-poller vi msa-poller.yml
 
 
-  #### 2. Generate Manifests
+#### 2. Generate Manifests
   Once you've done this part your current working directory should include:
   - msa-demo-ns.yml
   - msa-api.yml
@@ -147,7 +147,7 @@
             run: redis
         spec:
           containers:
-          - image: sameersbn/redis:4.0.9-1
+          - image: redis
             name: redis
             ports:
             - containerPort: 6379
