@@ -3,7 +3,7 @@ Installing HELM
 
 ## Install helm-client on your workstation
 
-* Either `brew install kubernetes-helm` or get it here [OSX](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz)
+* [OSX](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz) either `brew install kubernetes-helm` or get it [here](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz) [OSX](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-darwin-amd64.tar.gz)
 * [LINUX](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz)
 * [WINDOWS](https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-windows-amd64.zip)
 
@@ -100,8 +100,9 @@ Server: &version.Version{SemVer:"v2.9.1", GitCommit:"20adb27c7c5868466912eebdf66
 **In the next lab we will be deploying charts via tiller**
 
 ## cleanup
+**Please use for general knowledge or end of lab if your'e not continuing to the next ...**
 
-**Please note:** If your done with `helm` or just need to cleanup this lab use the `cleanup.sh` provided here-in.
+**So** If your done with `helm` or just need to cleanup this lab use the `cleanup.sh` provided here-in.
 
 1. remove Deployment
 
