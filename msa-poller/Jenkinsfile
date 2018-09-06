@@ -1,0 +1,17 @@
+@Library('tpl@helm-support') _
+
+import tpl.ci.node.tplNodeCiPipeline
+
+parameters {
+      //string(defaultValue: true, description: '', name: 'dockerRegistryUrl')
+      string(defaultValue: true, description: 'shelleg', name: 'dockerRegistryPrefix')
+      string(defaultValue: true, description: 'msa-poller', name: 'containerName')
+      string(defaultValue: true, description: 'config', name: 'containerTag')
+
+  }
+
+node('generic') {
+
+    pipeline = new tplNodeCiPipeline(this)
+    pipeline.run()
+}
