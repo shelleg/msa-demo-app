@@ -2,14 +2,14 @@
 
 import tpl.ci.node.tplNodeCiPipeline
 
-parameters {
-      string(defaultValue: 'shelleg', description: 'shelleg', name: 'dockerRegistryPrefix')
-      string(defaultValue: 'config', description: '', name: 'containerTag')
-      string(defaultValue: true, description: 'msa-api', name: 'containerName')
-  }
+
 
 node('generic') {
-
-    pipeline = new tplNodeCiPipeline(this)
-    pipeline.run()
+  parameters {
+        string(defaultValue: 'shelleg', description: 'shelleg', name: 'dockerRegistryPrefix')
+        string(defaultValue: 'config', description: '', name: 'containerTag')
+        string(defaultValue: true, description: 'msa-api', name: 'containerName')
+    }
+  pipeline = new tplNodeCiPipeline(this)
+  pipeline.run()
 }
