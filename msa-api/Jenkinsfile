@@ -3,11 +3,9 @@
 import tpl.ci.node.tplNodeCiPipeline
 
 parameters {
-      //string(defaultValue: true, description: '', name: 'dockerRegistryUrl')
-      string(defaultValue: true, description: 'shelleg', name: 'dockerRegistryPrefix')
+      string(defaultValue: 'shelleg', description 'shelleg', name: 'dockerRegistryPrefix')
+      string(defaultValue: 'config' description: '', name: 'containerTag')
       string(defaultValue: true, description: 'msa-api', name: 'containerName')
-      string(defaultValue: true, description: 'config', name: 'containerTag')
-
   }
 
 node('generic') {
