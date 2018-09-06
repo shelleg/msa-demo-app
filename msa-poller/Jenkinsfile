@@ -3,7 +3,7 @@
 import tpl.ci.node.tplNodeCiPipeline
 
 parameters {
-  string(defaultValue: 'shelleg', description 'shelleg', name: 'dockerRegistryPrefix')
+  string(defaultValue: 'shelleg', description: 'shelleg', name: 'dockerRegistryPrefix')
   string(defaultValue: 'latest', description: '', name: 'containerTag')
   string(defaultValue: true, description: 'msa-poller', name: 'containerName')
 
