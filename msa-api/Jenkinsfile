@@ -9,7 +9,7 @@ node('generic') {
         string(defaultValue: 'shelleg', description: 'docker repository prefix name which defaults to shelleg', name: 'dockerRegistryPrefix')
         string(defaultValue: 'config',  description: 'microservice tag defaults to config', name: 'containerTag')
         string(defaultValue: 'msa-api', description: 'microservice name', name: 'containerName')
-        string(defaultValue: 'msa-api', description: 'microservice name', name: 'dockerPath')
+        string(defaultValue: 'msa-api', description: 'microservice Dockerfile\'s relative path', name: 'dockerPath')
     }
   pipeline = new tplNodeCiPipeline(this)
   pipeline.run()
