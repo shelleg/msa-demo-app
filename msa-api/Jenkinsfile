@@ -6,9 +6,10 @@ import tpl.ci.node.tplNodeCiPipeline
 
 node('generic') {
   parameters {
-        string(defaultValue: 'shelleg', description: 'shelleg', name: 'dockerRegistryPrefix')
-        string(defaultValue: 'config', description: '', name: 'containerTag')
-        string(defaultValue: true, description: 'msa-api', name: 'containerName')
+        string(defaultValue: 'shelleg', description: 'docker repository prefix name which defaults to shelleg', name: 'dockerRegistryPrefix')
+        string(defaultValue: 'config',  description: 'microservice tag defaults to config', name: 'containerTag')
+        string(defaultValue: 'msa-api', description: 'microservice name', name: 'containerName')
+        string(defaultValue: 'msa-api', description: 'microservice name', name: 'dockerPath')
     }
   pipeline = new tplNodeCiPipeline(this)
   pipeline.run()
