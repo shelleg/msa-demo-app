@@ -2,5 +2,6 @@
 cluster:
   enabled: false
   slaveCount: 0
-persistence:
-   enabled: false
+master:
+  persistence:
+     enabled: false
