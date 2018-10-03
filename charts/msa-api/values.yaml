@@ -16,7 +16,7 @@ service:
   type: ClusterIP
   port: 8080
 
-env: 
+env:
   node: docker
 
 ingress:
@@ -49,3 +49,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+redis:
+  cluster:
+    enabled: false
+    slaveCount: 0
+  master:
+    persistence:
+       enabled: false
