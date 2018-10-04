@@ -1,0 +1,17 @@
+{{- if .Values.configmap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: {{ template "msa-api.name" . }}
+    chart: {{ template "msa-api.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "msa-api.fullname" . }}
+data:
+  config.json: |-
+{
+  "redis_host": "{{ template "msa-api.fullname" . }}"
+  "redis_port": "6379"
+}
+{{- end }}
