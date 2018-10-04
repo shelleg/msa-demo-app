@@ -30,7 +30,11 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - name: config-file
+              mountPath: /opt/tikal/config
           resources:
+
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -43,4 +47,9 @@ spec:
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
+
+      volumes:
+        - name: config-file
+          configMap:
+            name: msa-api
     {{- end }}

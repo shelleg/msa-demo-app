@@ -17,7 +17,7 @@ service:
   port: 8080
 
 env:
-  node: docker
+  node: config
 
 ingress:
   enabled: false
