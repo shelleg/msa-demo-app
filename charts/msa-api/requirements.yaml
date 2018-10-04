@@ -2,3 +2,5 @@ dependencies:
 - name: redis
   repository: "https://kubernetes-charts.storage.googleapis.com/"
   version: 4.1.1
+  tags:
+    - redis-db

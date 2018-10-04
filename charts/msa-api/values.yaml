@@ -51,6 +51,9 @@ tolerations: []
 affinity: {}
 
 redis:
+  enabled: true
+  tags:
+    redis-db: true
   cluster:
     enabled: false
     slaveCount: 0
