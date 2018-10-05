@@ -1,4 +1,4 @@
-FROM arabkin/node-base-img:0.1.0
+FROM arabkin/node-base-img:0.1.1
 
 RUN mkdir -p /opt/tikal/config
 
