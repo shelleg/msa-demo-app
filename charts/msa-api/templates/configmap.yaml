@@ -6,10 +6,10 @@ metadata:
     chart: {{ template "msa-api.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "msa-api.fullname" . }}
+  name: {{ template "msa-api.fullname" . }}-cm
 data:
   config.json: |-
                   {
-                    "redis_host": "msa-api-redis-master"
+                    "redis_host": "{{ template "msa-api.fullname" . }}-master",
                     "redis_port": "6379"
                   }

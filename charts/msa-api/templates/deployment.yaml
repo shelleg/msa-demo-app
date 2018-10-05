@@ -33,23 +33,10 @@ spec:
           volumeMounts:
             - name: config-file
               mountPath: /opt/tikal/config
-          resources:
-
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-
       volumes:
         - name: config-file
           configMap:
-            name: msa-api
-    {{- end }}
+            name: {{ include "msa-api.fullname" . }}-cm
+            items:
+              - key: config.json
+                path: config.json
