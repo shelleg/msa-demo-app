@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: shelleg/msa-api
-  tag: config
+  repository: arabkin/msa-api
+  tag: 0.1.1
   pullPolicy: IfNotPresent
 
 nameOverride: "msa-api"
@@ -17,7 +17,7 @@ service:
   port: 8080
 
 env:
-  node: config
+  node: docker
 
 ingress:
   enabled: false

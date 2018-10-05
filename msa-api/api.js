@@ -1,7 +1,7 @@
 let express = require('express');
 let redis = require('redis');
 let app = express();
-var config = require('./config/config.js');
+var config = require('./config.js');
 
 var cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
 var redis_pass = config.get('redis_pass')

@@ -1,12 +1,9 @@
-FROM node:6-alpine
+FROM arabkin/node-base-img:0.1.0
 
 RUN mkdir -p /opt/tikal/config
 
 WORKDIR /opt/tikal/
-
 COPY package.json .
-RUN npm install
-
 COPY *.js /opt/tikal/
 COPY config/* /opt/tikal/config/
 

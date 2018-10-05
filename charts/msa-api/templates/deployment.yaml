@@ -39,4 +39,4 @@ spec:
             name: {{ include "msa-api.fullname" . }}-cm
             items:
               - key: config.json
-                path: config.json
+                path: docker.json
