@@ -60,3 +60,4 @@ redis:
   master:
     persistence:
        enabled: false
+  password: "MyS3cr3t"
