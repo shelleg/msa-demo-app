@@ -10,6 +10,6 @@ metadata:
 data:
   config.json: |-
                   {
-                    "redis_host": "{{ template "msa-api.fullname" . }}-master",
+                    "redis_host": "{{ .Release.Name }}-redis-master",
                     "redis_port": "6379"
                   }
