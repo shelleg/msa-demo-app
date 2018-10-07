@@ -1,0 +1,28 @@
+apiVersion: gitkube.sh/v1alpha1
+kind: Remote
+metadata:
+  creationTimestamp: null
+  name: msa-api-remote
+  namespace: default
+spec:
+  authorizedKeys:
+  - |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWcXENVxINVdYNe0+SKnSlWaRuaYCxYLdnhdQbWB9zaR8w+AdUtrz498HSApyUKWYB+EwvIBCgAqZP+l/zaxE1tZB6fjyGgUX5Rir868PQq1/ndDFu/tRzOQt7TJf4jMV7akhS42QYD3onteLhq0cR+rZ/yGDhl8+AmdtGtIVtfvFzTNxSW8sfPSEr/VWgK+ahy0abXeQ1BlWNTYaYyQvxLf1MGwEGcyQk6Z4IAOY7+4X6BNo7T2X9tJMMMnpH92BD5ESCcJHdlyGq2s8sYdlg234qMAJrwlw+ckTmpZH593wq96WPXsviDw/wFQ6VoXhu1sfI/8OsgFVALwzK1d1/ root@hagzag-ThinkPad-W520
+  deployments:
+  - containers:
+    - dockerfile: msa-api/Dockerfile
+      name: msa-api
+      path: ./
+    name: msa-api
+  manifests:
+    helm: {}
+    path: msa-api/manifests
+  registry:
+    credentials:
+      secretKeyRef:
+        key: ""
+      secretRef: msa-api-remote-regsecret
+    url: docker.io/
+status:
+  remoteUrl: ""
+  remoteUrlDesc: ""

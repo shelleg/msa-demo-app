@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: api
+    hasuraService: custom
+  name: api
+  namespace: default
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: api
+    spec:
+      containers:
+      - image: shelleg/msa-api:latest
+        imagePullPolicy: Always
+        name: api
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      securityContext: {}
+      terminationGracePeriodSeconds: 0
+status: {}
