@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: arabkin/msa-api
-  tag: 0.1.1
-  pullPolicy: IfNotPresent
+  repository: shelleg/msa-api
+  tag: 0.1.2
+  pullPolicy: Always
 
 nameOverride: "msa-api"
 fullnameOverride: ""
