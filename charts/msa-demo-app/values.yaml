@@ -1,8 +1,12 @@
-msa-api:
-  enabled: true
+# msa-api:
+#   enabled: true
 
 msa-pinger:
   enabled: true
+  msa-api:
+    enabled: true
 
 msa-poller:
   enabled: true
+  msa-api:
+    enabled: false

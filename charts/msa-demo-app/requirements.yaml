@@ -1,12 +1,21 @@
-dependencies:
-- name: msa-api
-  repository: file://../repo/
-  version: 0.1.2
+# dependencies:
+#   - name: msa-api
+#     repository: file://../repo/
+#     version: 0.1.2
+#     condition: msa-api.enabled
+#     tags:
+#       - api-svc
 
-- name: msa-pinger
-  repository: file://../repo/
-  version: 0.1.2
+  - name: msa-pinger
+    repository: file://../repo/
+    version: 0.1.2
+    condition: msa-pinger.enabled,msa-pinger.msa-api.enabled
+    tags:
+      - pinger
 
-- name: msa-poller
-  repository: file://../repo/
-  version: 0.1.1
+  - name: msa-poller
+    repository: file://../repo/
+    version: 0.1.2
+    condition: msa-poller.enabled,msa-poller.msa-api.enabled
+    tags:
+      - poller
