@@ -1,0 +1,16 @@
+# Default values for msa-pinger.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: shelleg/msa-pinger
+  tag: rc-0.1.0
+  pullPolicy: Always
+
+nameOverride: "msa-pinger"
+fullnameOverride: ""
+
+msa-api:
+  enabled: true

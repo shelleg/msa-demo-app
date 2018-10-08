@@ -50,6 +50,10 @@ tolerations: []
 
 affinity: {}
 
+exports:
+  service:
+    port: 8080
+
 redis:
   enabled: true
   tags:
