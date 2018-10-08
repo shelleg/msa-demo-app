@@ -2,8 +2,3 @@ dependencies:
 - name: msa-api
   repository: file://../repo/
   version: 0.1.2
-  tags:
-    - msa-api
-    - backend
-  import-values:
-    - service

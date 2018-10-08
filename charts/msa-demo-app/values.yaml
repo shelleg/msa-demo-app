@@ -1,0 +1,8 @@
+msa-api:
+  enabled: true
+
+msa-pinger:
+  enabled: true
+
+msa-poller:
+  enabled: true

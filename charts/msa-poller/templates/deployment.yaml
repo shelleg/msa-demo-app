@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "msa-poller.fullname" . }}
+  labels:
+    app: {{ include "msa-poller.name" . }}
+    helm.sh/chart: {{ include "msa-poller.chart" . }}
+    chart: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "msa-poller.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "msa-poller.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MSA_API_URL
+              value: "http://{{ .Release.Name }}-msa-api:8080"
+          command: ["./poller.sh"]
+          args: ["$(MSA_API_URL)"]

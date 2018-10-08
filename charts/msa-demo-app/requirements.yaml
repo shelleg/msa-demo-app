@@ -1,0 +1,12 @@
+dependencies:
+- name: msa-api
+  repository: file://../repo/
+  version: 0.1.2
+
+- name: msa-pinger
+  repository: file://../repo/
+  version: 0.1.2
+
+- name: msa-poller
+  repository: file://../repo/
+  version: 0.1.1

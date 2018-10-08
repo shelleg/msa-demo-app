@@ -11,3 +11,9 @@ image:
 
 nameOverride: "msa-pinger"
 fullnameOverride: ""
+
+msa-api:
+  enabled: true
+  tags:
+    msa-api: false
+    redis-db: false

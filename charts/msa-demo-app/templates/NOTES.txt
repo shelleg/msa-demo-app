@@ -1,0 +1,6 @@
+MSA Demo app is a composition of:
+- msa-pinger
+- msa-poller
+
+pinger published (increments) some walues in redis via msa-api Service
+poller consume it (prints how many were published till now)
