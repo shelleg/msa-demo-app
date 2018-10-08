@@ -42,3 +42,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+msa-api:
+  enabled: true

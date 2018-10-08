@@ -1,0 +1,7 @@
+dependencies:
+- name: msa-api
+  repository: file://../repo/
+  version: 0.1.2
+  condition: msa-api.enabled
+  tags:
+    - api-svc
