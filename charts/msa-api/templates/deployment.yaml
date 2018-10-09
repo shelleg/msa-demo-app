@@ -33,6 +33,22 @@ spec:
           volumeMounts:
             - name: config-file
               mountPath: /opt/tikal/config
+          livenessProbe:
+            httpGet:
+              path: /probe/liveness
+              port: 8080
+            initialDelaySeconds: {{ .Values.livinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.livinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.livinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.livinessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: /probe/readiness
+              port: 8080
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
       volumes:
         - name: config-file
           configMap:
