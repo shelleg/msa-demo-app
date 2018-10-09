@@ -11,3 +11,15 @@ image:
 
 nameOverride: "msa-pinger"
 fullnameOverride: ""
+
+livinessProbe:
+  initialDelaySeconds: 5
+  timeoutSeconds: 1
+  periodSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  periodSeconds: 10
+  failureThreshold: 3

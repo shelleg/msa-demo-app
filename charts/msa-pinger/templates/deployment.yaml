@@ -28,3 +28,22 @@ spec:
               value: "http://{{ .Release.Name }}-msa-api:8080/ping"
           command: ["./pinger.sh"]
           args: ["$(MSA_API_URL)"]
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /opt/tikal/pinger.sh
+            initialDelaySeconds: {{ .Values.livinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.livinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.livinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.livinessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              host: {{ .Release.Name }}-msa-api
+              path: /isAlive
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
