@@ -37,13 +37,13 @@ spec:
             timeoutSeconds: {{ .Values.livinessProbe.timeoutSeconds }}
             periodSeconds: {{ .Values.livinessProbe.periodSeconds }}
             failureThreshold: {{ .Values.livinessProbe.failureThreshold }}
-          readinessProbe:
-            httpGet:
-              host: {{ .Release.Name }}-msa-api
-              path: /isAlive
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          # readinessProbe:
+          #   httpGet:
+          #     host: {{ .Release.Name }}-msa-api
+          #     path: /isAlive
+          #     port: 8080
+          #     scheme: HTTP
+          #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          #   periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          #   failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
