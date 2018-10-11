@@ -1,4 +1,5 @@
 FROM node:6-alpine
 
 COPY package.json .
-RUN npm install
+RUN apk add --no-cache curl && \
+    npm install
