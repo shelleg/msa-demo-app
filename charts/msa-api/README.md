@@ -3,8 +3,8 @@
 This application acts like a DAL (Data Access Layer) for Redis, it provides basic "publish/retriever" API for REDIS (deployed as dependent chart).
 Beside "business" API it provides "health check" API:
 * ___/isAlive___ - returns `200 OK` HTTP status and `"OK"` string
-* ___/probe/liveness___ - returns 200 OK
-* ___/prove/readiness___ - returns 200 OK
+* ___/probe/liveness___ - returns `200 OK`
+* ___/prove/readiness___ - returns `200 OK`
 
 This service has a dependency - redis chart which is taken from "stable" redis charts repository during buld process.
 So we have no redis chart to manage, we will rely on Bitnami to provide us a good chart.
