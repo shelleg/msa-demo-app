@@ -1,46 +1,26 @@
-## Converting Docker Compose to Helm chrats
-W've created `helm` branch to coperate....
-Just checkout and see  
+## Microservice demo application for training purposes
 
-We are working in __charts__ directory....  
+1. #### msa-api
+The api service which:
+  * responses to NODE_ENV environment variable with values `development` or `docker` or `kubernetes` which expects redis_url key to be present.
+  * Returns the current pinger value when `/` is called
+  * Increments the value of key by 1 every time `/ping` is called
+  * Says "its aaallive!" when `/isAlive` is called
+  * `service liveness probe` returns 200 OK when `/probe/liveness` is called
+  * `service readiness probe` returns 200 OK when `/probe/readiness` is called and redis is actually responding to the service
 
-We've started from ___msa-api___ chart which have __redis__ dependency.
 
-__Redis__ receives it's _tests_ values from `redis_values.yaml`.
-these values are transferred to dependent _redis_ chart from the parent _msa-api_.
+2. #### msa-pinger
+A "shell script entry point" service which increments the pinger in the via `/ping` in the msa-api every 1 sec.
 
-## Final architecture
 
-All components will have their own charts since they are microservices.  
-Entire solution, called ___msa-demo-app___ is "composed solution" built from microservices, this solution will have
-the helm chatr only, no code there.  
-When ___msa-demo-app___ is deployed, it takes care to bring up all relevant components:  
-* __msa-api__ with healthchecks (liveness and readiness checks were implemented) starts with dependent `redis` component and becomes ready once all healthchecks are ok.
-* __msa-pinger__ service has no dependencies (healthcheck - liveness only)
-* __msa-poller__ service has no dependencies (healthcheck - liveness only)
+3. #### msa-poller
+A "shell script entry point" service which polls the pinger in the via `/` in the msa-api every 1 sec.
 
-Each chart has it's own default values inside the chart. In order to supply different values (for staging, prod, lab etc.) there is local (POC) folder (which in a real scenario should be managed in another repository - TBD.).  
-Folders structure will looks as follows:
+---
+#### Running in K8s
+Stay tuned form k8s-101 & k8s 102 workshops
 
-```bash
-charts/env-values/
-├── msa-api
-│   ├── lab
-│   ├── prod
-│   └── uat
-├── msa-demo-app
-│   ├── lab
-│   ├── prod
-│   └── uat
-├── msa-pinger
-│   ├── lab
-│   │   └── values.yaml
-│   ├── prod
-│   └── uat
-└── msa-poller
-    ├── lab
-    ├── prod
-    └── uat
-```
-
-So it will be possible to "rule the world" without changing charts.
+#### Running the stack in `docker` or `docker swarm` ?
+* docker -> `docker-compose up -d`
+* swarm -> `docker stack deploy --compose-file docker-compose.yml demostack`
