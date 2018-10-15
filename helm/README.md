@@ -9,6 +9,8 @@ Ensure you have the following tools installed:
 
 Ensure you have the ac.fuse.tikal.io cluster context setup.
 
+See [ac.fuse.tikal.io](https://github.com/shelleg/ac-k8s/tree/master/ac.fuse.tikal.io#connection-to-the-cluster-considering-you-have-the-above-perquisites)
+
 Ensure you have the stable helm repository set-up:
 
 ```sh
@@ -25,11 +27,6 @@ Add the msa-charts S3 helm repository:
 ```sh
 helm repo add ac-charts s3://msa-charts/
 ```
-
-
-## K8S cluster connection
-
-See [ac.fuse.tikal.io](https://github.com/shelleg/ac-k8s/tree/master/ac.fuse.tikal.io#connection-to-the-cluster-considering-you-have-the-above-perquisites)
 
 ## msa-demo-app deploy
 
