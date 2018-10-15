@@ -1,0 +1,8 @@
+redis:
+  cluster:
+    enabled: false
+    slaveCount: 0
+  master:
+    persistence:
+       enabled: false
+  password: "MyS3cr3t"

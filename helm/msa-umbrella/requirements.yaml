@@ -1,0 +1,13 @@
+dependencies:
+- name: redis
+  repository: '@stable'
+  version: 4.1.1
+- name: msa-api
+  repository: '@msa-charts'
+  version: 0.1.0
+- name: msa-pinger
+  repository: '@msa-charts'
+  version: 0.1.0
+- name: msa-poller
+  repository: '@msa-charts'
+  version: 0.1.0

@@ -1,0 +1,15 @@
+dependencies:
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 4.1.1
+- name: msa-api
+  repository: s3://msa-charts
+  version: 0.1.0
+- name: msa-pinger
+  repository: s3://msa-charts
+  version: 0.1.0
+- name: msa-poller
+  repository: s3://msa-charts
+  version: 0.1.0
+digest: sha256:87b564657219e498c96d61569dd989b9df82dff04830cb49b33ab8686341d9bf
+generated: 2018-10-14T14:23:35.475893658+03:00
