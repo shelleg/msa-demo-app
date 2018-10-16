@@ -52,10 +52,16 @@ to verify that app working check pods logs:
 
 ```sh
 kubectl get pods -n msa-umbrella
-kubectl logs v1-msa-pinger-6654fd77c4-8f6ln -n msa-umbrella
+NAME                             READY     STATUS    RESTARTS   AGE
+msa-api-6766fc84b-d8gj4          1/1       Running   2          9h
+v1-msa-pinger-6654fd77c4-sn794   1/1       Running   0          9h
+v1-msa-poller-66fc9587b7-xjkq4   1/1       Running   0          9h
+v1-redis-master-0                1/1       Running   0          9h
+
+kubectl logs v1-msa-pinger-6654fd77c4-sn794 -n msa-umbrella
 Incremented ping by 1
 
-kubectl logs v1-msa-poller-66fc9587b7-qdtnn -n msa-umbrella
+kubectl logs v1-msa-poller-66fc9587b7-xjkq4 -n msa-umbrella
 Current ping count: 508
 ```
 
@@ -64,11 +70,11 @@ for simpler multiple logs output use tool: [kubetail](https://github.com/johanha
 ```sh
 kubetail v1 -n msa-umbrella
 Will tail 3 logs...
-v1-msa-pinger-6654fd77c4-8f6ln
-v1-msa-poller-66fc9587b7-qdtnn
+v1-msa-pinger-6654fd77c4-sn794
+v1-msa-poller-66fc9587b7-xjkq4
 v1-redis-master-0
-[v1-msa-pinger-6654fd77c4-8f6ln] Incremented ping by 1
-[v1-msa-poller-66fc9587b7-qdtnn] Current ping count: 857
-[v1-msa-pinger-6654fd77c4-8f6ln] Incremented ping by 1
-[v1-msa-poller-66fc9587b7-qdtnn] Current ping count: 858
+[v1-msa-pinger-6654fd77c4-sn794] Incremented ping by 1
+[v1-msa-poller-66fc9587b7-xjkq4] Current ping count: 553
+[v1-msa-pinger-6654fd77c4-sn794] Incremented ping by 1
+[v1-msa-poller-66fc9587b7-xjkq4] Current ping count: 554
 ```
