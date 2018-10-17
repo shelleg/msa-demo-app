@@ -35,7 +35,7 @@ Use helm command-line tool to deploy msa-demo-app:
 ```sh
 kubectl create namespace msa-umbrella
 helm dep build ./helm/msa-umbrella
-helm install --name v1 --namespace msa-umbrella ./helm/ant-umbrella
+helm install --name v1 --namespace msa-umbrella ./helm/msa-umbrella
 ```
 
 The `msa-umbrella` helm chart is an umbrella that deploys the following
