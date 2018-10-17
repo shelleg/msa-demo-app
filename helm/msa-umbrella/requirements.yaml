@@ -4,7 +4,7 @@ dependencies:
   version: 4.1.1
 - name: msa-api
   repository: '@msa-charts'
-  version: 0.1.9
+  version: 0.1.10
 - name: msa-pinger
   repository: '@msa-charts'
   version: 0.1.0
