@@ -42,9 +42,9 @@ The `msa-umbrella` helm chart is an umbrella that deploys the following
 sub-charts:
 
 * [redis](https://github.com/helm/charts/tree/master/stable/redis)
-* [msa-api](./helm/msa-api/)
-* [msa-pinger](./helm/msa-pinger/)
-* [msa-poller](./helm/msa-poller/)
+* [msa-api](./msa-api/)
+* [msa-pinger](./msa-pinger/)
+* [msa-poller](./msa-poller/)
 
 ## Verification
 
