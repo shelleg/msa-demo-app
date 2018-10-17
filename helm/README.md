@@ -25,7 +25,7 @@ helm plugin install https://github.com/hypnoglow/helm-s3.git
 Add the msa-charts S3 helm repository:
 
 ```sh
-helm repo add ac-charts s3://msa-charts/
+helm repo add msa-charts s3://msa-charts/
 ```
 
 ## msa-demo-app deploy
