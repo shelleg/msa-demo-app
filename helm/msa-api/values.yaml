@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: shelleg/msa-api
-  tag: 0.1.14
+  tag: 0.1.15
   pullPolicy: Always
 nameOverride: msa-api
 fullnameOverride: msa-api
