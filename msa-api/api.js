@@ -1,10 +1,28 @@
-let express = require('express');
-let redis = require('redis');
-let app = express();
-var config = require('./config/config.js');
+const express = require('express');
+const redis   = require('redis');
+const app     = express();
 
-var cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
-var redis_pass = config.get('redis_pass')
+// redis related
+var   config  = require('./config/config.js');
+var   cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
+var   redis_pass = config.get('redis_pass')
+
+// prometheus client
+const client = require('prom-client');
+const collectDefaultMetrics = client.collectDefaultMetrics;
+
+var Prometheus = require('./prom');  
+
+// instantiate counters
+app.use(Prometheus.requestCounters);  
+app.use(Prometheus.responseCounters);
+
+// create /metrics
+Prometheus.injectMetricsRoute(app);
+
+// start collection
+Prometheus.startCollection();  
+
 
 if (process.env.REDIS_URL != null) {
   var cache_host = process.env.REDIS_URL;
@@ -41,6 +59,7 @@ app.get('/pinger', function (req, res) {
   });
 });
 
+// increase pings collection by 1
 app.post('/ping', function (req, res) {
   let client = app.get('redis');
 
@@ -52,6 +71,8 @@ app.post('/ping', function (req, res) {
     }
   });
 });
+
+// Liverness and Resiness probes for k8s
 
 app.get('/isAlive', function (req, res) {
   res.send('It\'s aaaalive!\n')
@@ -73,6 +94,8 @@ app.get('/probe/readiness', function (req, res) {
   });
 });
 
+
+// Start server
 app.listen(config.get('listen_port'), function () {
   console.log('Connecting to cache_host: ' + cache_host);
   console.log('Server running on port ' + config.get('listen_port') + '!');
