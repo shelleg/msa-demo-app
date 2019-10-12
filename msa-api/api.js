@@ -1,6 +1,8 @@
-let express = require('express');
-let redis = require('redis');
-let app = express();
+const promBundle = require("express-prom-bundle");
+const express = require('express');
+const redis = require('redis');
+const app = express();
+
 var config = require('./config/config.js');
 
 var cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
@@ -10,10 +12,22 @@ if (process.env.REDIS_URL != null) {
   var cache_host = process.env.REDIS_URL;
 }
 
+// enable prometheus stats
+const metricsMiddleware = promBundle({  includeMethod: true, 
+                                        includePath: true, 
+                                        customLabels: {app_version: process.env.npm_package_version},
+                                        promClient: {
+                                          collectDefaultMetrics: {timeout: 1000}
+                                        },
+});
+
 app.set('redis', redis.createClient({
   url: cache_host,
   password: redis_pass
 }));
+
+// add metrics to express app
+app.use(metricsMiddleware);
 
 // routes
 app.get('/', function (req, res) {
