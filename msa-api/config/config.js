@@ -1,7 +1,7 @@
-var convict = require('convict');
+const convict = require('convict');
 
 // Define a schema
-var config = convict({
+const config = convict({
   env: {
     doc: "The application environment.",
     format: ["development", "docker", "kubernetes", "ci"],
@@ -33,7 +33,7 @@ var config = convict({
 });
 
 // Load environment dependent configuration
-var env = config.get('env');
+const env = config.get('env');
 config.loadFile('./config/' + env + '.json');
 console.log('loading ./config/' + env + '.json');
 // config.has('redis_host') && console.log('will attemtp to load redis_host from ./config/' + env + '.json')

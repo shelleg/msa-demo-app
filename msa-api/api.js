@@ -2,15 +2,10 @@ const promBundle = require("express-prom-bundle");
 const express = require('express');
 const redis = require('redis');
 const app = express();
+const config = require('./config/config.js');
 
-var config = require('./config/config.js');
-
-var cache_host = 'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
-var redis_pass = config.get('redis_pass')
-
-if (process.env.REDIS_URL != null) {
-  var cache_host = process.env.REDIS_URL;
-}
+const redis_pass = config.get('redis_pass')
+const cache_host = process.env.REDIS_URL ? process.env.REDIS_URL :  'redis://' + config.get('redis_host') + ':' + config.get('redis_port');
 
 // enable prometheus stats
 const metricsMiddleware = promBundle({  includeMethod: true, 
@@ -30,10 +25,10 @@ app.set('redis', redis.createClient({
 app.use(metricsMiddleware);
 
 // routes
-app.get('/', function (req, res) {
-  let client = app.get('redis');
+app.get('/', (req, res) => {
+  const client = app.get('redis');
 
-  client.get('pings', function(err, result) {
+  client.get('pings', (err, result) => {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -42,10 +37,10 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/pinger', function (req, res) {
-  let client = app.get('redis');
+app.get('/pinger', (req, res) => {
+  const client = app.get('redis');
 
-  client.incrby('pings', "1", function(err, result) {
+  client.incrby('pings', "1", (err, result) => {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -55,10 +50,10 @@ app.get('/pinger', function (req, res) {
   });
 });
 
-app.post('/ping', function (req, res) {
-  let client = app.get('redis');
+app.post('/ping', (req, res) => {
+  const client = app.get('redis');
 
-  client.incrby('pings', "1", function(err, result) {
+  client.incrby('pings', "1", (err, result) => {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -67,18 +62,18 @@ app.post('/ping', function (req, res) {
   });
 });
 
-app.get('/isAlive', function (req, res) {
+app.get('/isAlive', (req, res) => {
   res.send('It\'s aaaalive!\n')
 })
 
-app.get('/probe/liveness', function (req, res) {
+app.get('/probe/liveness', (req, res) => {
   res.status(200).send("OK\n");
 });
 
-app.get('/probe/readiness', function (req, res) {
-  let client = app.get('redis');
+app.get('/probe/readiness', (req, res) => {
+  const client = app.get('redis');
 
-  client.ping(function(err, result) {
+  client.ping((err, result) => {
     if(err) {
       res.status(500).send(err);
     } else {
@@ -87,7 +82,7 @@ app.get('/probe/readiness', function (req, res) {
   });
 });
 
-app.listen(config.get('listen_port'), function () {
+app.listen(config.get('listen_port'), () => {
   console.log('Connecting to cache_host: ' + cache_host);
   console.log('Server running on port ' + config.get('listen_port') + '!');
 });
