@@ -13,7 +13,7 @@ spec:
 status:
   loadBalancer: {}
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
@@ -33,7 +33,7 @@ spec:
         run: redis
     spec:
       containers:
-      - image: redis
+      - image: redis:5
         name: redis
         ports:
         - containerPort: 6379
@@ -49,4 +49,3 @@ spec:
           items:
           - key: redis.conf
             path: redis.conf
-status: {}

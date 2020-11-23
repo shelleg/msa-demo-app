@@ -1,7 +1,6 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     run: msa-poller
   name: msa-poller
@@ -13,7 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         run: msa-poller
     spec:
@@ -24,4 +22,3 @@ spec:
         image: shelleg/msa-poller:latest
         name: msa-poller
         resources: {}
-status: {}
