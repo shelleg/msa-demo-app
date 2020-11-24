@@ -33,8 +33,7 @@
     1. `redis` will be using its default port `6379`
     1. `msa-api` will listen on port `8080`
 
-  #### 2. Generate Manifests
-  Once you've done this part your current working directory should include:
+  #### 2. Manifests
   - msa-demo-ns.yml
   - redis.yml
   - msa-api.yml
@@ -43,66 +42,52 @@
 
     **please note:** use the .reference directory herein as reference.)
 
-    ##### 2.1 Create `msa-demo` namespace (using kubectl --dry-run)
+    ##### 2.1 Create `msa-demo` namespace 
 
     ```sh
-    kubectl create namespace msa-demo --dry-run -o yaml > msa-demo-ns.yml
+    kubectl create namespace msa-demo
     ```
 
-    ##### 2.2 Create deployment + service for redis (using kubectl --dry-run)
+    ##### 2.2.1 Create deployment for redis (using kubectl --dry-run)
 
     ```sh
-    kubectl run redis --image=redis --port=6379 --expose --dry-run -o yaml > redis.yml
+    kubectl  create deployment redis --image=redis:5 --port=6379 --dry-run=client -o yaml > redis-deployment.yaml
     ```
 
     which yields:
     ```yaml
-    apiVersion: v1
-    kind: Service
-    metadata:
-      creationTimestamp: null
-      name: redis
-    spec:
-      ports:
-      - port: 6379
-        protocol: TCP
-        targetPort: 6379
-      selector:
-        run: redis
-    status:
-      loadBalancer: {}
-    ---
-    apiVersion: apps/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       creationTimestamp: null
       labels:
-        run: redis
+        app: redis
       name: redis
     spec:
       replicas: 1
       selector:
         matchLabels:
-          run: redis
+          app: redis
       strategy: {}
       template:
         metadata:
           creationTimestamp: null
           labels:
-            run: redis
+            app: redis
         spec:
           containers:
-          - image: redis
+          - image: redis:5
             name: redis
             ports:
             - containerPort: 6379
             resources: {}
     status: {}
     ```
+    
+    ##### 2.2.2 Create service for redis (using kubectl --dry-run)
 
-    #### 2.3 Create deployment + service for msa-api
     ```sh
-    kubectl run msa-api --image=shelleg/msa-api:config  --port=8080 --image-pull-policy=Always --expose --dry-run -o yaml > msa-api.yml
+    kubectl  create service clusterip redis  --tcp=6379 --dry-run=client  -oyaml > redis-service.yaml
     ```
 
     which yields:
@@ -111,46 +96,106 @@
     kind: Service
     metadata:
       creationTimestamp: null
-      name: msa-api
+      labels:
+        app: redis
+      name: redis
     spec:
       ports:
-      - port: 8080
+      - name: "6379"
+        port: 6379
         protocol: TCP
-        targetPort: 8080
+        targetPort: 6379
       selector:
-        run: msa-api
+        app: redis
+      type: ClusterIP
     status:
       loadBalancer: {}
-    ---
-    apiVersion: apps/v1beta1
+    ```
+    
+    #### 2.3.1 Create deployment for msa-api
+    ```sh
+    kubectl create deployment msa-api --image=shelleg/msa-api:config  --port=8080 --dry-run=client -o yaml > msa-api-deployment.yaml
+    ```
+
+    which yields:
+    ```yaml
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       creationTimestamp: null
       labels:
-        run: msa-api
+        app: msa-api
       name: msa-api
     spec:
       replicas: 1
       selector:
         matchLabels:
-          run: msa-api
+          app: msa-api
       strategy: {}
       template:
         metadata:
           creationTimestamp: null
           labels:
-            run: msa-api
+            app: msa-api
         spec:
           containers:
           - image: shelleg/msa-api:config
-            imagePullPolicy: Always
             name: msa-api
-            ports:
+      ports:
             - containerPort: 8080
             resources: {}
     status: {}
     ```
-    **Please note** when developing and using "latest" tag or specifying "--image-pull-policy=Always" results in forcing the docker daemon to pull the image even if there is one on the underlaying host, in tour case we are using the `config` tag which I might be updating with changes hence this is set.
+    Edit file `msa-api-deployment.yaml`:  In the `container spec`, after the `image` and `name` definition add:
+    ```yaml
+    env:
+      - name: REDIS_URL 
+        value: redis://redis:6379
+    ```
+    Save your changes. Now the pod will know where to find the cache server.
+    
+    #### 2.3.2 Create service for msa-api
+    ```sh
+    kubectl  create service clusterip msa-api --tcp=8080 --dry-run=client  -oyaml > msa-api-service.yaml
+    ```
+    which yield:
+    ```yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: msa-api
+      name: msa-api
+    spec:
+      ports:
+      - name: "8080"
+        port: 8080
+        protocol: TCP
+        targetPort: 8080
+      selector:
+        app: msa-api
+      type: ClusterIP
+    status:
+      loadBalancer: {}
+      ```
+      
+      ### Lets deploy
+      run 
+      ```sh
+      ls
+      ```
+      You should have this in your folder:
+      ```
+      msa-api-deployment.yaml  README.md              redis-service.yaml
+      msa-api-service.yaml     redis-deployment.yaml
+      ```
+      Now run:
+      ```sh
+       k create --namespace msa-demo -f .
+       ```
+      
+      
 
     #### 2.4 Create deployment for msa-pinger
     ```sh
