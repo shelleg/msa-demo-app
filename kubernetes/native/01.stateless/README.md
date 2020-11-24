@@ -206,6 +206,7 @@
        ```sh
        curl -d "" http://localhost:8080/ping
        ```
+       Refresh your browser and see if ping was counted.
       
       
 
