@@ -208,7 +208,7 @@
        ```
        Refresh your browser and see if ping was counted.
       
-      
+    -------------------- MIO -------------------------  
 
     #### 2.4 Create deployment for msa-pinger
     ```sh
