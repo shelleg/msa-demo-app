@@ -146,7 +146,7 @@
             resources: {}
     status: {}
     ```
-    Edit file `msa-api-deployment.yaml`:  In the `container spec`, after the `image` and `name` definition add:
+    Edit file `msa-api-deployment.yaml`:  In the `containers` under `spec`, after the `image` and `name` definition add:
     ```yaml
     env:
       - name: REDIS_URL 
@@ -193,6 +193,18 @@
       Now run:
       ```sh
        k create --namespace msa-demo -f .
+       ```
+       
+       ### Lets test
+       Link the api service to a local port:
+       ```sh
+       kubectl port-forward service/msa-api 8080
+       ```
+       point your browser to `http://localhost:8080`, verify you get `Current ping count: null `
+       
+       Now ping to it by running:
+       ```sh
+       curl -d "" http://localhost:8080/ping
        ```
       
       

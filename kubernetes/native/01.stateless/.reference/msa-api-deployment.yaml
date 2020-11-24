@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: msa-api
+  name: msa-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-api
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: msa-api
+    spec:
+      containers:
+      - image: shelleg/msa-api:config
+        name: msa-api
+        env:
+          - name: REDIS_URL 
+            value: redis://redis:6379
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
