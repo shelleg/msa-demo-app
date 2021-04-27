@@ -16,7 +16,7 @@
     "express": "^4.14.0",
     "express-prom-bundle": "^5.1.5",
     "prom-client": "^11.5.3",
-    "redis": "^2.6.5",
+    "redis": "^3.1.1",
     "retry": "^0.10.0"
   }
 }
